@@ -87,8 +87,13 @@ function getPowerFunction(exponent) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  throw new Error('Not implemented');
+function getPolynom(x1, x2, x3) {
+  const sumOfArgs = arguments.length;
+  let result = null;
+  if (sumOfArgs === 1) result = () => x1;
+  if (sumOfArgs === 2) result = (num) => x1 * num + x2;
+  if (sumOfArgs === 3) result = (num) => x1 * num ** 2 + x2 * num + x3;
+  return result;
 }
 
 /**
@@ -125,8 +130,18 @@ function memoize(func) {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* func, attempts */) {
-  throw new Error('Not implemented');
+function retry(func, attempts) {
+  return () => {
+    let step = 0;
+    while (step < attempts) {
+      try {
+        return func();
+      } catch (err) {
+        step += 1;
+      }
+    }
+    return null;
+  };
 }
 
 /**
@@ -169,8 +184,10 @@ function logger(/* func, logFunc */) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments(/* fn, ...args1 */) {
-  throw new Error('Not implemented');
+function partialUsingArguments(fn, ...args1) {
+  return function func(...args2) {
+    return fn(...args1, ...args2);
+  };
 }
 
 /**
